@@ -2,10 +2,36 @@
 
 {% block content %}
 
-<pre><code class="line-numbers language-python">
-if name == user:
+{% if code %}
+<pre><code class="line-numbers language-{{ lang }}">{{ code }}
+</code></pre>
+{% else %}
+<pre><code class="line-numbers language-python">if name == user:
     print(user)
 else:
     print('Unknown')
 </code></pre>
+{% endif %}
+<br /><br />
+<form method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        {% if code %}
+        <textarea class="form-control" name="code" placeholder="Get your code fixed by AI..."
+            rows="8">{{ code }}</textarea>
+        {% else %}
+        <textarea class="form-control" name="code" placeholder="Get your code fixed by AI..." rows="8"></textarea>
+        {% endif %}
+    </div>
+    <div style="width: max-content;">
+        <select class="form-select" name="lang">
+            <option selected>Select Language</option>
+            {% for lang in languages %}
+            <option value="{{ lang }}">{{ lang }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-outline-secondary">Submit</button>
+</form>
 {% endblock content %}
