@@ -17,10 +17,10 @@ else:
     {% csrf_token %}
     <div class="mb-3">
         {% if code %}
-        <textarea class="form-control" name="code" placeholder="Get your code fixed by AI..."
-            rows="8">{{ code }}</textarea>
+        <textarea class="form-control" name="codeToFix" placeholder="Get your code fixed by AI..."
+            rows="8">{{ codeToFix }}</textarea>
         {% else %}
-        <textarea class="form-control" name="code" placeholder="Get your code fixed by AI..." rows="8"></textarea>
+        <textarea class="form-control" name="codeToFix" placeholder="Get your code fixed by AI..." rows="8"></textarea>
         {% endif %}
     </div>
     <div style="width: max-content;">
