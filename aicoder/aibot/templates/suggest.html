@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if code %}
+<pre><code class="line-numbers language-{{ lang }}">{{ code }}
+</code></pre>
+{% else %}
+<pre><code class="line-numbers language-python">def give_me_code():
+    print("Here is your code...")
+</code></pre>
+{% endif %}
+<br /><br />
+<form method="POST" action="{% url 'suggest' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        {% if code %}
+        <textarea class="form-control" name="command" placeholder="Get your AI written code..."
+            rows="8">{{ command }}</textarea>
+        {% else %}
+        <textarea class="form-control" name="command" placeholder="Get your AI written code..." rows="8"></textarea>
+        {% endif %}
+    </div>
+    <div style="width: max-content;">
+        <select class="form-select" name="lang">
+            <option selected>Select Language</option>
+            {% for lang in languages %}
+            <option value="{{ lang }}">{{ lang }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-outline-secondary">Submit</button>
+</form>
+<br />
+{% endblock content %}

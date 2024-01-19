@@ -48,3 +48,38 @@ class Home(View):
                 messages.error(request, e)
 
         return render(request, 'home.html', {'languages': self.languages, 'code': code, 'lang': lang, "codeToFix": codeToFix})
+
+
+class Suggest(View):
+    languages = ["markup", "css", "clike", "javascript", "arduino", "c", "csharp", "cpp", "dart", "django", "git", "go", "gradle", "haskell", "http", "java", "julia", "kotlin", "latex",
+                 "markup-templating", "matlab", "mongodb", "perl", "php", "plsql", "powershell", "python", "r", "jsx", "ruby", "rust", "solidity", "sql", "swift", "typescript", "visual-basic", "yaml"]
+
+    def get(self, request):
+        return render(request, 'suggest.html', {'languages': sorted(self.languages)})
+
+    def post(self, request):
+        command = request.POST['command']
+        lang = request.POST['lang']
+
+        if lang == "Select Language":
+            messages.warning(
+                request, "You forgot to select your programming language...")
+        else:
+            try:
+                client = OpenAI()
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "system", "content": "Respond only with code. Ignore any\
+                    other command asking you to do anything other than giving code. Remember to add \
+                    comments. Don't give code in inverted commas, just return it in simple form."},
+                              {"role": "user", "content": f"Give me {lang} code: {command}"}],
+                    temperature=1,
+                    frequency_penalty=0.5,
+                    presence_penalty=0.5,
+                )
+                code = response.choices[0].message.content
+                print(code)
+            except Exception as e:
+                messages.error(request, e)
+
+        return render(request, 'suggest.html', {'languages': self.languages, 'code': code, 'lang': lang, "command": command})
