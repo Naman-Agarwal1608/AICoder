@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
 
 {% if code %}
 <pre><code class="line-numbers language-{{ lang }}">{{ code }}
@@ -33,4 +34,11 @@
     <button type="submit" class="btn btn-outline-secondary">Submit</button>
 </form>
 <br />
+
+{% else %}
+<script>
+    window.location.href = "{% url 'home' %}"
+</script>
+
+{% endif %}
 {% endblock content %}
