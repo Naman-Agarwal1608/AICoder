@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h2 class="text-left">History</h2>
+{% if code %}
+{% for instance in code %}
+<div class="card">
+    <h5 class="card-header">{{ instance.question }}</h5>
+    <div class="card-body">
+        <h5 class="card-title">Language: {{ instance.language }}</h5>
+        <p class="card-text">
+        <pre><code class="line-numbers language-{{ instance.language }}">{{ instance.code_answer }}</code></pre>
+        </p>
+    </div>
+</div>
+<br />
+{% endfor %}
+{% endif %}
+{% else %}
+<script>
+    window.location.href = "{% url 'home' %}"
+</script>
+{% endif %}
+{% endblock content %}

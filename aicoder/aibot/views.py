@@ -130,6 +130,11 @@ class RegisterUser(View):
         return render(request, "register.html", {'form': form})
 
 
+def history(request):
+    code = Code.objects.filter(user_id=request.user.id)
+    return render(request, "history.html", {'code': code})
+
+
 def logoutUser(request):
     logout(request)
     messages.success(request, "Successfully logged out...")
