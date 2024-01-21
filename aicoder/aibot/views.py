@@ -135,6 +135,13 @@ def history(request):
     return render(request, "history.html", {'code': code})
 
 
+def delete_hist(request, id):
+    inst = Code.objects.get(pk=id)
+    inst.delete()
+    messages.success(request, "Successfully deleted...")
+    return redirect('history')
+
+
 def logoutUser(request):
     logout(request)
     messages.success(request, "Successfully logged out...")

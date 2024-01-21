@@ -13,6 +13,9 @@
         <pre><code class="line-numbers language-{{ instance.language }}">{{ instance.code_answer }}</code></pre>
         </p>
     </div>
+    <div class="card-footer">
+        <a href="{% url 'delete_hist' instance.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+    </div>
 </div>
 <br />
 {% endfor %}
